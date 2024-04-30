@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 ''' Let's create an Amenity view'''
 
-from flask import Flask , abort , request
+from flask import Flask, abort, request, jsonify
 from api.v1.views import app_views
 from os import name
 from models.amenity import Amenity
@@ -9,6 +9,7 @@ from models.amenity import Amenity
 from models import storage
 
 # app = Flask(__name__)
+
 
 @app_views.route('/amenities', methods=['GET'], strict_slashes=False)
 def func_getamenities():
@@ -20,7 +21,8 @@ def func_getamenities():
     return jsonify([amenity.to_dict() for amenity in amenities])
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/amenities/<amenity_id>', methods=['GET'],
+                 strict_slashes=False)
 def func_getamenity(amenity_id):
     """Retrieves an Amenity
     object by its ID."""
@@ -34,7 +36,8 @@ def func_getamenity(amenity_id):
         return jsonify(dataamenity.to_dict())
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/amenities/<amenity_id>', methods=['DELETE'],
+                 strict_slashes=False)
 def func_deleteamenity(amenity_id):
     """Deletes an Amenity
     object by its ID."""
@@ -74,7 +77,8 @@ def func_createamenity():
     return jsonify(nw_amenity.to_dict()), 201
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/amenities/<amenity_id>', methods=['PUT'],
+                 strict_slashes=False)
 def func_updateamenity(amenity_id):
     """Updates an Amenity object by its ID."""
     # Récupère l'objet Amenity correspondant à amenity_id

@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 ''' Let's create a City view'''
 
-from flask import Flask, abort, request
+from flask import Flask, abort, request, jsonify
 from api.v1.views import app_views
 from os import name
 from models.state import State
