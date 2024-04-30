@@ -1,75 +1,94 @@
 #!/usr/bin/python3
 ''' Let's create a User view'''
 
-from flask import Flask , abort , request
+from flask import Flask, abort, request
 from api.v1.views import app_views
-from os import name
+# from os import name
 from models.user import User
+from models import storage
 
-app = Flask(__name__)
+# app = Flask(__name__)
 
 
-@app.route('/api/v1/users', methods=['GET'])
-def get_users():
-    """
-    Retrieves the list of all User objects.
-    """
-    users = User.all()
+@app_views.route('/users', methods=['GET'], strict_slashes=False)
+def func_getusers():
+    """Récupère la liste de tous les objets User"""
+    # Récupère tous les objets User depuis le stockage
+    users = storage.all(User).values()
+    # Sérialise les objets User en JSON et retourne la réponse
     return jsonify([user.to_dict() for user in users])
 
 
-@app.route('/api/v1/users/<user_id>', methods=['GET'])
-def get_user_by_id(user_id):
-    """
-    Retrieves a User object by its ID.
-    """
-    user = User.find(user_id)
-    if not user:
+@app_views.route('/users/<user_id>', methods=['GET'], strict_slashes=False)
+def func_getuser(user_id):
+    # Récupère l'objet User avec l'ID donné depuis le stockage
+    user = storage.get(User, user_id)
+    # Si l'objet User n'est pas trouvé, retourne une erreur 404
+    if user is None:
         abort(404)
-    return jsonify(user.to_dict()), 200
+    # Sérialise l'objet User en JSON et retourne la réponse
+    return jsonify(user.to_dict())
 
 
-@app.route('/api/v1/users/<user_id>', methods=['DELETE'])
-def delete_user(user_id):
-    """
-    Deletes a User object by its ID.
-    """
-    user = User.find(user_id)
-    if not user:
+@app_views.route('/users/<user_id>', methods=['DELETE'], strict_slashes=False)
+def func_deleteuser(user_id):
+    """Supprime un objet User"""
+    # Récupère l'objet User avec l'ID donné depuis le stockage
+    user = storage.get(User, user_id)
+    # Si l'objet User n'est pas trouvé, retourne une erreur 404
+    if user is None:
         abort(404)
-    user.delete()
+    # Supprime l'objet User du stockage et enregistre les modifications
+    storage.delete(user)
+    storage.save()
+    # Retourne une réponse vide avec le code d'état 200
     return jsonify({}), 200
 
 
-@app.route('/api/v1/users', methods=['POST'])
-def create_user():
-    """
-    Creates a new User object.
-    """
-    if not request.is_json:
-        abort(400, {'error': 'Not a JSON'})
-    data = request.get_json()
-    if 'email' not in data or 'password' not in data:
-        abort(400, {'error': 'Missing email or password'})
-    user = User(email=data['email'], password=data['password'])
-    user.save()
-    return jsonify(user.to_dict()), 201
+@app_views.route('/users', methods=['POST'], strict_slashes=False)
+def func_createuser():
+    """Crée un objet User"""
+    # Récupère les données JSON de la requête
+    datareq_json = request.get_json()
+    # Si les données de la requête ne sont pas en JSON ou
+    # la clé 'email' ou 'password' est manquante,
+    # retourne une erreur 400
+    if datareq_json is None:
+        abort(400, "Not a JSON")
+    if 'email' not in datareq_json:
+        abort(400, "Missing email")
+    if 'password' not in datareq_json:
+        abort(400, "Missing password")
+    # Crée un nouvel objet User avec les données de la requête
+    nw_user = User(**datareq_json)
+    # Enregistre le nouvel objet User dans le stockage
+    nw_user.save()
+    # Sérialise le nouvel objet User en JSON et retourne la réponse
+    return jsonify(nw_user.to_dict()), 201
 
 
-@app.route('/api/v1/users/<user_id>', methods=['PUT'])
-def update_user(user_id):
-    """
-    Updates a User object by its ID.
-    """
-    if not request.is_json:
-        abort(400, {'error': 'Not a JSON'})
-    data = request.get_json()
-    user = User.find(user_id)
-    if not user:
+@app_views.route('/users/<user_id>', methods=['PUT'], strict_slashes=False)
+def func_updateuser(user_id):
+    """Met à jour un objet User"""
+    # Récupère l'objet User avec l'ID donné depuis le stockage
+    user = storage.get(User, user_id)
+    # Si l'objet User n'est pas trouvé, retourne une erreur 404
+    if user is None:
         abort(404)
-    ignore_keys = ['id', 'email', 'created_at', 'updated_at']
-    for key, value in data.items():
-        if key not in ignore_keys:
+    # Récupère les données JSON de la requête
+    datareq_json = request.get_json()
+    # Si les données de la requête ne
+    # sont pas en JSON, retourne une erreur 400
+    if datareq_json is None:
+        abort(400, "Not a JSON")
+    # Liste des clés à ignorer lors de la mise à jour
+    ignrkeys = ['id', 'email', 'created_at', 'updated_at']
+    # Met à jour l'objet User avec les données de la requête
+    for key, value in datareq_json.items():
+        if key not in ignrkeys:
             setattr(user, key, value)
-    user.save() # Save the updated user
+    # Enregistre l'objet User mis à jour dans le stockage
+    user.save()
+    # Sérialise l'objet User mis à jour
+    # en JSON et retourne la réponse
     return jsonify(user.to_dict()), 200
