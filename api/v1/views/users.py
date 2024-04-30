@@ -12,7 +12,7 @@ def retrieve_users():
     """
     Retrieves all User objects and returns them as a JSON response.
     """
-    users = storage.all('User')
+    users = storage.all(User)
     return jsonify([user.to_dict() for user in users.values()])
 
 
@@ -21,7 +21,7 @@ def get_user_by_id(user_id):
     """
     Retrieves a User object by its ID and returns it as a JSON response.
     """
-    user = storage.get('User', user_id)
+    user = storage.get(User, user_id)
     if user is None:
         abort(404)
     return jsonify(user.to_dict()), 200
@@ -70,7 +70,7 @@ def delete_user(user_id):
     """
     Deletes a User object by its ID.
     """
-    user = storage.get('User', user_id)
+    user = storage.get(User, user_id)
     if user is None:
         abort(404)
     storage.delete(user)
