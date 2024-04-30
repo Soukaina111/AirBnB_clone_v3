@@ -54,7 +54,7 @@ def update_user(user_id):
     data = request.get_json()
     if data is None:
         abort(400, {'error': 'Not a JSON'})
-    user = storage.get('User', user_id)
+    user = storage.get(User, user_id)
     if user is None:
         abort(404)
     ignore_keys = ['id', 'created_at', 'updated_at']
