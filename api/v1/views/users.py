@@ -1,4 +1,4 @@
-i#!/usr/bin/python3
+#!/usr/bin/python3
 ''' Let's create a User view'''
 
 from flask import Flask , abort , request
