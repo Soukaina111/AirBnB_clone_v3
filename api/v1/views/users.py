@@ -1,13 +1,14 @@
 #!/usr/bin/python3
 ''' Let's create a User view'''
 
-from flask import Flask , abort , request
+from flask import Flask, abort, request
 from api.v1.views import app_views
 # from os import name
 from models.user import User
 from models import storage
 
 # app = Flask(__name__)
+
 
 @app_views.route('/users', methods=['GET'], strict_slashes=False)
 def func_getusers():
@@ -20,7 +21,6 @@ def func_getusers():
 
 @app_views.route('/users/<user_id>', methods=['GET'], strict_slashes=False)
 def func_getuser(user_id):
-    """Récupère un objet User"""
     # Récupère l'objet User avec l'ID donné depuis le stockage
     user = storage.get(User, user_id)
     # Si l'objet User n'est pas trouvé, retourne une erreur 404
