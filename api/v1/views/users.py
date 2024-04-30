@@ -12,8 +12,11 @@ def retrieve_users():
     """
     Retrieves all User objects and returns them as a JSON response.
     """
-    users = storage.all(User)
-    return jsonify([user.to_dict() for user in users.values()])
+    nwlist = []
+    datausrs = storage.all('User')
+    for eachtem in datausrs.values():
+        nwlist.append(eachtem.to_dict())
+    return jsonify(nwlist)
 
 
 @app_views.route('/users/<string:user_id>', strict_slashes=False)
@@ -21,7 +24,7 @@ def get_user_by_id(user_id):
     """
     Retrieves a User object by its ID and returns it as a JSON response.
     """
-    user = storage.get(User, user_id)
+    user = storage.get('User', user_id)
     if user is None:
         abort(404)
     return jsonify(user.to_dict()), 200
@@ -35,11 +38,10 @@ def create_user():
     data = request.get_json()
     if data is None:
         abort(400, {'error': 'Not a JSON'})
-    if email not in data:
+    if "email" not in data:
         abort(400, {'error': 'Missing email'})
-    if password not in data:
+    if "password" not in data:
         abort(400, {'error': 'Missing password'})
-
     user = User(email=data['email'], password=data['password'])
     storage.new(user)
     storage.save()
@@ -55,12 +57,12 @@ def update_user(user_id):
     data = request.get_json()
     if data is None:
         abort(400, {'error': 'Not a JSON'})
-    user = storage.get(User, user_id)
+    user = storage.get('User', user_id)
     if user is None:
         abort(404)
-    ignore_keys = ['id', 'created_at', 'updated_at']
+    ignrkeys = ['id', 'created_at', 'updated_at']
     for key, value in data.items():
-        if key not in ignore_keys:
+        if key not in ignrkeys:
             setattr(user, key, value)
     storage.save()
     return jsonify(user.to_dict()), 200
@@ -71,7 +73,7 @@ def delete_user(user_id):
     """
     Deletes a User object by its ID.
     """
-    user = storage.get(User, user_id)
+    user = storage.get('User', user_id)
     if user is None:
         abort(404)
     storage.delete(user)
