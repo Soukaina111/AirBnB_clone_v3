@@ -1,77 +1,100 @@
 #!/usr/bin/python3
-''' Let's create a State view'''
-
 from flask import abort, request, jsonify
 from api.v1.views import app_views
-from models.state import State
+from models.place import Place
+from models.city import City
+from models.user import User
 from models import storage
 
 
-@app_views.route('/states', methods=['GET'], strict_slashes=False)
-def retrieve_states():
-    """
-    Retrieves all State objects and returns them as a JSON response.
-    """
-    states = storage.all('State')
-    return jsonify([state.to_dict() for state in states.values()])
-
-
-@app_views.route('/states/<string:state_id>', strict_slashes=False)
-def get_state_by_id(state_id):
-    """
-    Retrieves a State object by its ID and returns it as a JSON response.
-    """
-    state = storage.get('State', state_id)
-    if state is None:
-        abort(404)
-    return jsonify(state.to_dict()), 200
-
-
-@app_views.route('/states/', methods=['POST'], strict_slashes=False)
-def create_state():
-    """
-    Creates a new State object from the JSON request body.
-    """
-    data = request.get_json()
-    if data is None:
-        abort(400, {'error': 'Not a JSON'})
-    if "name" not in data:
-        abort(400, {'error': 'Missing name'})
-    state = State(name=data['name'])
-    storage.new(state)
-    storage.save()
-    return jsonify(state.to_dict()), 201
-
-
-@app_views.route('/states/<string:state_id>', methods=['PUT'],
+@app_views.route('/cities/<string:city_id>/places', methods=['GET'],
                  strict_slashes=False)
-def update_state(state_id):
+def get_places_by_city(city_id):
     """
-    Updates a State object by its ID with the data from the JSON request body.
+    Retrieves the list of all Place objects of a City
     """
-    data = request.get_json()
-    if data is None:
-        abort(400, {'error': 'Not a JSON'})
-    state = storage.get('State', state_id)
-    if state is None:
+    city = storage.get('City', city_id)
+    if city is None:
         abort(404)
-    ignore_keys = ['id', 'created_at', 'updated_at']
-    for key, value in data.items():
-        if key not in ignore_keys:
-            setattr(state, key, value)
-    storage.save()
-    return jsonify(state.to_dict()), 200
+    places = [place.to_dict() for place in city.places]
+    return jsonify(places)
 
 
-@app_views.route('/states/<state_id>', methods=['DELETE'],
+@app_views.route('/places/<string:place_id>', methods=['GET'],
                  strict_slashes=False)
-def delete_state(state_id):
+def get_place(place_id):
     """
-    Deletes a State object by its ID.
+    Retrieves a Place object by its ID
     """
-    state = storage.get('State', state_id)
-    if state is None:
+    place = storage.get('Place', place_id)
+    if place is None:
         abort(404)
-    storage.delete(state)
+    return jsonify(place.to_dict())
+
+
+@app_views.route('/places/<string:place_id>', methods=['DELETE'],
+                 strict_slashes=False)
+def delete_place(place_id):
+    """
+    Deletes a Place object by its ID
+    """
+    place = storage.get('Place', place_id)
+    if place is None:
+        abort(404)
+    storage.delete(place)
     storage.save()
     return jsonify({}), 200
+
+
+@app_views.route('/cities/<string:city_id>/places', methods=['POST'],
+                 strict_slashes=False)
+def create_place(city_id):
+    """
+    Creates a new Place object associated with a City
+    """
+    city = storage.get('City', city_id)
+    if city is None:
+        abort(404)
+
+    data = request.get_json()
+    if data is None:
+        abort(400, {'error': 'Not a JSON'})
+    if 'user_id' not in data:
+        abort(400, {'error': 'Missing user_id'})
+
+    user_id = data['user_id']
+    user = storage.get('User', user_id)
+    if user is None:
+        abort(404)
+
+    if 'name' not in data:
+        abort(400, {'error': 'Missing name'})
+
+    place = Place(name=data['name'], user_id=user_id, city_id=city_id)
+    storage.new(place)
+    storage.save()
+
+    return jsonify(place.to_dict()), 201
+
+
+@app_views.route('/places/<string:place_id>', methods=['PUT'],
+                 strict_slashes=False)
+def update_place(place_id):
+    """
+    Updates a Place object by its ID
+    """
+    place = storage.get('Place', place_id)
+    if place is None:
+        abort(404)
+
+    data = request.get_json()
+    if data is None:
+        abort(400, {'error': 'Not a JSON'})
+
+    ignore_keys = ['id', 'user_id', 'city_id', 'created_at', 'updated_at']
+    for key, value in data.items():
+        if key not in ignore_keys:
+            setattr(place, key, value)
+
+    storage.save()
+    return jsonify(place.to_dict()), 200
