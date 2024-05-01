@@ -159,5 +159,6 @@ No known bugs at this time.
 * Said LAMGHARI - [Github](https://github.com/SaidLamghari)
 * Soukaina AIT GAGHOU - [Github](https://github.com/Soukaina111)
 - Second part of Airbnb: Joann Vuong
+
 ## License
 Public Domain. No copy write protection. 
