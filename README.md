@@ -158,6 +158,6 @@ No known bugs at this time.
 * Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)
 * Said LAMGHARI - [Github](https://github.com/SaidLamghari)
 * Soukaina AIT GAGHOU - [Github](https://github.com/Soukaina111)
-Second part of Airbnb: Joann Vuong
+- Second part of Airbnb: Joann Vuong
 ## License
 Public Domain. No copy write protection. 
