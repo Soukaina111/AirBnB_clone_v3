@@ -3,6 +3,7 @@
 """
 
 from flask import Flask, jsonify
+from flask import abort, request
 from flask_cors import CORS
 from models import storage
 from os import getenv
@@ -17,7 +18,7 @@ cors = CORS(app, resources={r"/api/v1/*": {"origins": "0.0.0.0"}})
 
 
 @app.teardown_appcontext
-def close_store(self):
+def Func_closestore(self):
     '''Ferme le stockage'''
     storage.close()
 
