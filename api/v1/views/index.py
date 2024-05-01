@@ -23,14 +23,12 @@ def get_statistics():
     Endpoint to retrieve statistics about different entities in storage.
     Returns a JSON response with counts for each entity.
     """
-    listskv = {"amenities": "Amenity",
-               "cities": "City",
-               "places": "Place",
-               "reviews": "Review",
-               "states": "State",
-               "users": "User"}
-    alllist = {}
-    for ky, vl in listskv.items():
-        alllist[ky] = storage.count(vl)
-
-    return jsonify(alllist)
+    entity_counts = {
+        'states': storage.count(State),
+        'users': storage.count(User),
+        'amenities': storage.count(Amenity),
+        'cities': storage.count(City),
+        'places': storage.count(Place),
+        'reviews': storage.count(Review)
+    }
+    return jsonify(entity_counts)
