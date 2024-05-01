@@ -32,3 +32,18 @@ def get_statistics():
         'reviews': storage.count(Review)
     }
     return jsonify(entity_counts)
+
+@app_views.route('/stats')
+def stats():
+    """ """
+    listskv = {"amenities": "Amenity",
+               "cities": "City",
+               "places": "Place",
+               "reviews": "Review",
+               "states": "State",
+               "users": "User"}
+    alllist = {}
+    for ky, vl in listskv.items():
+        alllist[ky] = storage.count(vl)
+
+    return jsonify(alllist)
