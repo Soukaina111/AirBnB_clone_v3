@@ -12,7 +12,7 @@ def retrieve_states():
     """
     Retrieves all State objects and returns them as a JSON response.
     """
-    states = storage.all('State')
+    states = storage.all(State)
     return jsonify([state.to_dict() for state in states.values()])
 
 
