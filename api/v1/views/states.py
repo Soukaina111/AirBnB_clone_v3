@@ -24,7 +24,7 @@ def get_state_by_id(state_id):
     state = storage.get('State', state_id)
     if not state:
         abort(404)
-    return jsonify(state.to_dict()), 200
+    return jsonify(state.to_dict())
 
 
 @app_views.route('/states/', methods=['POST'], strict_slashes=False)
