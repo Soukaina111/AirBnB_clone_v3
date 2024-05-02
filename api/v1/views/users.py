@@ -12,8 +12,11 @@ def retrieve_users():
     """
     Retrieves all User objects and returns them as a JSON response.
     """
-    users = storage.all('User')
-    return jsonify([user.to_dict() for user in users.values()])
+    nwlist = []
+    datausrs = storage.all('User')
+    for eachtem in datausrs.values():
+        nwlist.append(eachtem.to_dict())
+    return jsonify(nwlist)
 
 
 @app_views.route('/users/<string:user_id>', strict_slashes=False)
@@ -57,9 +60,9 @@ def update_user(user_id):
     user = storage.get('User', user_id)
     if user is None:
         abort(404)
-    ignore_keys = ['id', 'created_at', 'updated_at']
+    ignrkeys = ['id', 'created_at', 'updated_at']
     for key, value in data.items():
-        if key not in ignore_keys:
+        if key not in ignrkeys:
             setattr(user, key, value)
     storage.save()
     return jsonify(user.to_dict()), 200

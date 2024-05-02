@@ -154,13 +154,19 @@ EOF  all  create  destroy  help  quit  show  update
 No known bugs at this time. 
 
 ## Authors
-Alexa Orrico - [Github](https://github.com/alexaorrico) / [Twitter](https://twitter.com/alexa_orrico)  
-Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)
+* Alexa Orrico - [Github](https://github.com/alexaorrico) / [Twitter](https://twitter.com/alexa_orrico)  
+* Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)
+* Said LAMGHARI - [Github](https://github.com/SaidLamghari)
+* Soukaina AIT GAGHOU - [Github](https://github.com/Soukaina111)
+- Second part of Airbnb: Joann Vuong
 
+<<<<<<< HEAD
 AIT GAGHOU SOUKAINA [Github](https://github.com/Soukaina111)
 LAMGHARI SAID [Github](https://github.com/SaidLamghari)
 The rest of the Airbnb project , this time weare handling the RESTFUL API part
 
 Second part of Airbnb: Joann Vuong
+=======
+>>>>>>> 2f40b8d4a1af02e490bb23fe13cef68cdd8745cf
 ## License
 Public Domain. No copy write protection. 
