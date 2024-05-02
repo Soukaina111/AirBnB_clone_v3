@@ -21,7 +21,7 @@ def get_state_by_id(state_id):
     """
     Retrieves a State object by its ID and returns it as a JSON response.
     """
-    state = storage.get(State, state_id)
+    state = storage.get('State', state_id)
     if not state:
         abort(404)
     return jsonify(state.to_dict())
