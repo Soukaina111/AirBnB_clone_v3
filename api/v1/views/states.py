@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-''' Let's create a State view'''
+""" Let's create a State view """
 
 from flask import abort, request, jsonify
 from api.v1.views import app_views
