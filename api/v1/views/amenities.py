@@ -27,7 +27,7 @@ def func_getamenity(amenity_id):
     """Retrieves an Amenity
     object by its ID."""
     # Récupère l'objet Amenity correspondant à amenity_id
-    dataamenity = storage.get(Amenity, amenity_id)
+    dataamenity = storage.get('Amenity', amenity_id)
     # Si l'objet Amenity n'existe pas, retourne une erreur 404
     if dataamenity is None:
         abort(404)
@@ -42,7 +42,7 @@ def func_deleteamenity(amenity_id):
     """Deletes an Amenity
     object by its ID."""
     # Récupère l'objet Amenity correspondant à amenity_id
-    dataamenity = storage.get(Amenity, amenity_id)
+    dataamenity = storage.get('Amenity', amenity_id)
     # Si l'objet Amenity n'existe pas
     # retourne une erreur 404
     if dataamenity is None:
@@ -82,7 +82,7 @@ def func_createamenity():
 def func_updateamenity(amenity_id):
     """Updates an Amenity object by its ID."""
     # Récupère l'objet Amenity correspondant à amenity_id
-    amenity = storage.get(Amenity, amenity_id)
+    amenity = storage.get('Amenity', amenity_id)
     # Si l'objet Amenity n'existe pas, retourne une erreur 404
     if amenity is None:
         abort(404)
