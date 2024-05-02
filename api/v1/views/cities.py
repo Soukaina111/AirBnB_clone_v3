@@ -33,7 +33,7 @@ def func_getcity(city_id):
     """Retrieves a City
     object by its ID."""
     # Récupère l'objet City correspondant à city_id
-    datacity = storage.get(City, city_id)
+    datacity = storage.get('City', city_id)
     # Si l'objet City n'existe pas, retourne une erreur 404
     if datacity is None:
         return abort(404)
@@ -45,7 +45,7 @@ def func_deletecity(city_id):
     """Deletes a City object
     by its ID."""
     # Récupère l'objet City correspondant à city_id
-    city = storage.get(City, city_id)
+    city = storage.get('City', city_id)
     # Si l'objet City n'existe pas, retourne une erreur 404
     if city is None:
         return abort(404)
@@ -63,7 +63,7 @@ def func_createcity(state_id):
     """Creates a new City object
     for a specific State."""
     # Récupère l'objet State correspondant à state_id
-    state = storage.get(State, state_id)
+    state = storage.get('State', state_id)
     # Si l'objet State n'existe pas, retourne une erreur 404
     if state is None:
         return abort(404)
@@ -90,7 +90,7 @@ def func_updatecity(city_id):
     """Updates a City object
     by its ID."""
     # Récupère l'objet City correspondant à city_id
-    city = storage.get(City, city_id)
+    city = storage.get('City', city_id)
     # Si l'objet City n'existe pas, retourne une erreur 404
     if city is None:
         return abort(404)
