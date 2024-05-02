@@ -22,7 +22,7 @@ def get_state_by_id(state_id):
     Retrieves a State object by its ID and returns it as a JSON response.
     """
     state = storage.get('State', state_id)
-    if state is None:
+    if not state:
         abort(404)
     return jsonify(state.to_dict()), 200
 
@@ -33,7 +33,7 @@ def create_state():
     Creates a new State object from the JSON request body.
     """
     data = request.get_json()
-    if data is None:
+    if not data:
         abort(400, {'error': 'Not a JSON'})
     if "name" not in data:
         abort(400, {'error': 'Missing name'})
@@ -50,10 +50,10 @@ def update_state(state_id):
     Updates a State object by its ID with the data from the JSON request body.
     """
     data = request.get_json()
-    if data is None:
+    if not data:
         abort(400, {'error': 'Not a JSON'})
     state = storage.get('State', state_id)
-    if state is None:
+    if not state:
         abort(404)
     ignore_keys = ['id', 'created_at', 'updated_at']
     for key, value in data.items():
@@ -70,7 +70,7 @@ def delete_state(state_id):
     Deletes a State object by its ID.
     """
     state = storage.get('State', state_id)
-    if state is None:
+    if not state:
         abort(404)
     storage.delete(state)
     storage.save()
