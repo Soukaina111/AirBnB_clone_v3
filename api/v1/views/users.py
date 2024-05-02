@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-''' Let's create a User view'''
+"""Let's create a User view"""
 
 from flask import Flask, abort, request, jsonify
 from api.v1.views import app_views
