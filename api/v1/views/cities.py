@@ -18,7 +18,7 @@ def func_getcities(state_id):
     """Retrieves the list of all
     City objects for a specific State."""
     # Récupère l'objet State correspondant à state_id
-    datastate = storage.get(State, state_id)
+    datastate = storage.get('State', state_id)
     # Si l'objet State n'existe pas, retourne une erreur 404
     if datastate is None:
         return abort(404)
