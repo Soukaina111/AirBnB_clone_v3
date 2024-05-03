@@ -24,7 +24,7 @@ def Func_closestore(self):
 @app.errorhandler(404)
 def sorry_page_not_found(error):
     """
-    Gère les erreurs 404 en renvoyant uneréponse JSON indiquant l'erreur.
+    Gère les erreurs 404 en renvoyant une réponse JSON indiquant l'erreur.
     """
     return jsonify({"error": "Not found"}), 404
 
