@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-""" let's configure a flask app
-"""
+""" let's configure a flask app"""
 
 from flask import Flask, jsonify
 from flask import abort, request
@@ -19,7 +18,7 @@ cors = CORS(app, resources={r"/api/v1/*": {"origins": "0.0.0.0"}})
 
 @app.teardown_appcontext
 def Func_closestore(self):
-    '''Ferme le stockage'''
+    """Ferme le stockage"""
     storage.close()
 
 
@@ -32,6 +31,7 @@ def sorry_page_not_found(error):
 
 
 if __name__ == "__main__":
+    """Function"""
     app.run(host=getenv('HBNB_API_HOST', '0.0.0.0'),
             port=int(getenv('HBNB_API_PORT', '5000')),
             threaded=True)

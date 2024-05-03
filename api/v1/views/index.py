@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-'''let's configure flask status'''
+"""let's configure flask status"""
 from flask import jsonify
 from api.v1.views import app_views
 from models.amenity import Amenity
@@ -13,7 +13,7 @@ from models import storage
 
 @app_views.route('/status', strict_slashes=False)
 def status():
-    ''' shows the status'''
+    """ shows the status"""
     return jsonify({'status': 'OK'})
 
 
