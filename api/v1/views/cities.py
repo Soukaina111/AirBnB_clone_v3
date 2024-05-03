@@ -7,6 +7,7 @@ from os import name
 from models.state import State
 from models.city import City
 from models import storage
+import logging
 
 
 """app = Flask(__name__)"""
@@ -62,6 +63,9 @@ def func_deletecity(city_id):
 def func_createcity(state_id):
     """Creates a new City object
     for a specific State."""
+    """ loogiing"""
+    logging.info(f"Request data: {request.get_json()}")
+    logging.info(f"Content-Type: {request.content_type}")
     # Récupère l'objet State correspondant à state_id
     state = storage.get('State', state_id)
     # Si l'objet State n'existe pas, retourne une erreur 404
