@@ -80,7 +80,7 @@ class DBStorage:
        this method gets an object based on its class and ID.
         Returns the object if found or None otherwise.
         """
-        obj_key = f'{cls}.{id}'
+        obj_key = "%s.%s" % (cls, id)
         all_objects = self.all(cls)
         return all_objects.get(obj_key)
 
