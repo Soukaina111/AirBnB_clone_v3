@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """ let's configure a flask app"""
+
 from flask import Flask, jsonify
 from flask import abort, request
 from flask_cors import CORS
