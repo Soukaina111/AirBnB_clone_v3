@@ -7,10 +7,14 @@ from flask_cors import CORS
 from models import storage
 from os import getenv
 from api.v1.views import app_views
+""" new import """
+from flask.json import JSONEncoder
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
 app.url_map.strict_slashes = False
+""" new one """
+app.json_encoder = JSONEncoder
 
 # Configuration CORS
 cors = CORS(app, resources={r"/api/v1/*": {"origins": "0.0.0.0"}})

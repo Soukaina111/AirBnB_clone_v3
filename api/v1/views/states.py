@@ -5,6 +5,9 @@ from flask import abort, request, jsonify
 from api.v1.views import app_views
 from models.state import State
 from models import storage
+""" new """
+import logging
+
 
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
@@ -32,6 +35,10 @@ def create_state():
     """
     Creates a new State object from the JSON request body.
     """
+    """ new """
+    logging.info(f"Request data: {request.get_json()}")
+    logging.info(f"Content-Type: {request.content_type}")
+        """ end new """
     data = request.get_json()
     if not data:
         abort(400, {'error': 'Not a JSON'})
